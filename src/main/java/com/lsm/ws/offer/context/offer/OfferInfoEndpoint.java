@@ -25,9 +25,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+@Tag(name = "Offer services")
 @RestController
 @RequestMapping("/v1/api/offer")
-@Tag(name = "Offer services")
 public class OfferInfoEndpoint {
 
     private static final String ADD_SUMMARY = "Add offer";
