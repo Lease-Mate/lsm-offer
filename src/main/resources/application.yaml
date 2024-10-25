@@ -1,0 +1,34 @@
+server:
+  port: 8042
+  tomcat:
+    accesslog:
+      enabled: true
+    basedir: log/tomcat
+
+spring:
+  application:
+    name: lsm-offer
+  web:
+    locale: en_EN
+    locale-resolver: fixed
+    resources:
+      add-mappings: false
+  datasource:
+    username: lsm_offer
+  liquibase:
+    change-log: db/changelog/changelog.yml
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+
+management:
+  endpoints:
+    web:
+      base-path: /manage
+  endpoint:
+    metrics:
+      enabled: true
+
+feign:
+  user:
+    connect-timeout: 5s
+    request-timeout: 10s
