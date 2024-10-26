@@ -1,8 +1,10 @@
 package com.lsm.ws.offer.context.dictionary;
 
+import com.lsm.ws.offer.configuration.exception.dictionary.NoSuchCountryException;
 import com.lsm.ws.offer.domain.Language;
 import com.lsm.ws.offer.domain.dictionary.Country;
 import com.lsm.ws.offer.domain.dictionary.DictionaryRepository;
+import com.lsm.ws.offer.domain.dictionary.Region;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,8 @@ public class DictionaryEndpoint {
 
     private static final String COUNTRIES_SUMMARY = "Get supported countries";
     private static final String COUNTRIES_DESC = "returns supported countries";
+    private static final String REGIONS_SUMMARY = "Get supported regions";
+    private static final String REGIONS_DESC = "returns supported regions";
 
     private final DictionaryRepository dictionaryRepository;
 
@@ -30,5 +34,16 @@ public class DictionaryEndpoint {
     @GetMapping("/countries/{lang}")
     public List<Country> countries(@PathVariable Language lang) {
         return dictionaryRepository.getCountries(lang);
+    }
+
+    @Operation(summary = REGIONS_SUMMARY, description = REGIONS_DESC)
+    @GetMapping("/regions/{countryCode}/{lang}")
+    public List<Region> regions(@PathVariable String countryCode,
+                                @PathVariable Language lang) {
+
+        dictionaryRepository.getCountry(countryCode)
+                            .orElseThrow(() -> new NoSuchCountryException(countryCode));
+
+        return dictionaryRepository.getRegions(countryCode, lang);
     }
 }
