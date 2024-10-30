@@ -1,4 +1,4 @@
-package com.lsm.ws.offer.infrastructure.persistance.model;
+package com.lsm.ws.offer.infrastructure.persistance.model.dictionary;
 
 import com.lsm.ws.offer.domain.Language;
 import jakarta.persistence.Column;

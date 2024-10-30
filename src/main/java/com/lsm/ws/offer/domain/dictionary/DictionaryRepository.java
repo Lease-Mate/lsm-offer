@@ -12,4 +12,8 @@ public interface DictionaryRepository {
     Optional<Country> getCountry(String countryCode);
 
     List<Region> getRegions(String countryCode, Language lang);
+
+    Optional<Region> getRegion(String regionId);
+
+    List<City> getCities(String regionId, Language lang);
 }

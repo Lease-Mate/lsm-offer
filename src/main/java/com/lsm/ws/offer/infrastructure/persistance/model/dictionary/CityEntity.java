@@ -1,7 +1,7 @@
-package com.lsm.ws.offer.infrastructure.persistance.model;
+package com.lsm.ws.offer.infrastructure.persistance.model.dictionary;
 
 import com.lsm.ws.offer.domain.Language;
-import com.lsm.ws.offer.domain.dictionary.Region;
+import com.lsm.ws.offer.domain.dictionary.City;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,15 +10,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "region")
-public class RegionEntity {
+@Table(name = "city")
+public class CityEntity {
 
     @Id
     @Column(name = "id")
     private String id;
 
-    @Column(name = "country_iso_code")
-    private String countryIsoCode;
+    @Column(name = "region_id")
+    private String regionId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "lang")
@@ -27,7 +27,7 @@ public class RegionEntity {
     @Column(name = "name")
     private String name;
 
-    public Region toRegion() {
-        return new Region(id, name);
+    public City toCity() {
+        return new City(id, name);
     }
 }

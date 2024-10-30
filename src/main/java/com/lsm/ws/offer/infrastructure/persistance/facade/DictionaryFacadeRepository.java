@@ -1,13 +1,16 @@
 package com.lsm.ws.offer.infrastructure.persistance.facade;
 
 import com.lsm.ws.offer.domain.Language;
+import com.lsm.ws.offer.domain.dictionary.City;
 import com.lsm.ws.offer.domain.dictionary.Country;
 import com.lsm.ws.offer.domain.dictionary.DictionaryRepository;
 import com.lsm.ws.offer.domain.dictionary.Region;
+import com.lsm.ws.offer.infrastructure.persistance.jpa.CityJpaRepository;
 import com.lsm.ws.offer.infrastructure.persistance.jpa.CountryJpaRepository;
 import com.lsm.ws.offer.infrastructure.persistance.jpa.RegionJpaRepository;
-import com.lsm.ws.offer.infrastructure.persistance.model.CountryEntity;
-import com.lsm.ws.offer.infrastructure.persistance.model.RegionEntity;
+import com.lsm.ws.offer.infrastructure.persistance.model.dictionary.CityEntity;
+import com.lsm.ws.offer.infrastructure.persistance.model.dictionary.CountryEntity;
+import com.lsm.ws.offer.infrastructure.persistance.model.dictionary.RegionEntity;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -20,11 +23,13 @@ public class DictionaryFacadeRepository implements DictionaryRepository {
 
     private final CountryJpaRepository countryJpaRepository;
     private final RegionJpaRepository regionJpaRepository;
+    private final CityJpaRepository cityJpaRepository;
 
     public DictionaryFacadeRepository(CountryJpaRepository countryJpaRepository,
-                                      RegionJpaRepository regionJpaRepository) {
+                                      RegionJpaRepository regionJpaRepository, CityJpaRepository cityJpaRepository) {
         this.countryJpaRepository = countryJpaRepository;
         this.regionJpaRepository = regionJpaRepository;
+        this.cityJpaRepository = cityJpaRepository;
     }
 
     @Override
@@ -55,4 +60,26 @@ public class DictionaryFacadeRepository implements DictionaryRepository {
                                   .toList();
     }
 
+    @Override
+    public Optional<Region> getRegion(String regionId) {
+        return regionJpaRepository.findById(regionId)
+                                  .map(RegionEntity::toRegion);
+    }
+
+    @Override
+    public List<City> getCities(String regionId, Language lang) {
+        Specification<CityEntity> hasCountryIsoCode = Specification.where((root, query, cb) ->
+                cb.equal(root.get("regionId"), regionId));
+        return cityJpaRepository.findAll(hasCountryIsoCode.and(hasLang(lang)), sortByName())
+                                .stream().map(CityEntity::toCity)
+                                .toList();
+    }
+
+    private <T> Specification<T> hasLang(Language lang) {
+        return (root, query, cb) -> cb.equal(root.get("lang"), lang);
+    }
+
+    private Sort sortByName() {
+        return Sort.by(Sort.Direction.ASC, "name");
+    }
 }

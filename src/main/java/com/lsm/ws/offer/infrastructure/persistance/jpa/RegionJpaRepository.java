@@ -1,6 +1,6 @@
 package com.lsm.ws.offer.infrastructure.persistance.jpa;
 
-import com.lsm.ws.offer.infrastructure.persistance.model.RegionEntity;
+import com.lsm.ws.offer.infrastructure.persistance.model.dictionary.RegionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

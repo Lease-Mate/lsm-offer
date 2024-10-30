@@ -1,7 +1,7 @@
 package com.lsm.ws.offer.infrastructure.persistance.jpa;
 
 import com.lsm.ws.offer.domain.Language;
-import com.lsm.ws.offer.infrastructure.persistance.model.CountryEntity;
+import com.lsm.ws.offer.infrastructure.persistance.model.dictionary.CountryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
