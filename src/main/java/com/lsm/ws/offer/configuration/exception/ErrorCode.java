@@ -4,7 +4,9 @@ public enum ErrorCode {
 
     OFFER_DOES_NOT_EXIST("001", "Ogłoszenie nie istnieje"),
     COUNTRY_DOES_NOT_EXIST("002", "Kraj nie istnieje"),
-    REGION_DOES_NOT_EXIST("003", "Region nie istnieje");
+    REGION_DOES_NOT_EXIST("003", "Region nie istnieje"),
+    UNSUPPORTED_IMAGE_FORMAT("004", "Niedozwolony format obrazu, dozwolone formaty {}"),
+    IMAGE_DOES_NOT_EXIST("005", "Obraz nie istnieje");
 
     private static final String MICROSERVICE_PREFIX = "lsm-offer-";
     private final String code;

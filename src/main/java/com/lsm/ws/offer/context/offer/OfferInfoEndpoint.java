@@ -1,8 +1,10 @@
 package com.lsm.ws.offer.context.offer;
 
-import com.lsm.ws.offer.context.offer.dto.AddOfferRequest;
+import com.lsm.ws.offer.context.dto.IdWrapperDto;
+import com.lsm.ws.offer.context.image.ImageService;
 import com.lsm.ws.offer.context.offer.dto.OfferDetailsDto;
 import com.lsm.ws.offer.context.offer.dto.OfferDto;
+import com.lsm.ws.offer.context.offer.dto.UpdateOfferRequest;
 import com.lsm.ws.offer.domain.offer.OfferFilter;
 import com.lsm.ws.offer.domain.offer.OfferStatus;
 import com.lsm.ws.offer.infrastructure.rest.PaginationSpecification;
@@ -11,16 +13,21 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -30,28 +37,42 @@ import java.util.List;
 @RequestMapping("/v1/api/offer")
 public class OfferInfoEndpoint {
 
-    private static final String ADD_SUMMARY = "Add offer";
-    private static final String ADD_DESC = "adds new offer, requires jwt token";
+    private static final String UPDATE_SUMMARY = "Update offer";
+    private static final String UPDATE_DESC = "updates offer, requires jwt token";
+    private static final String CREATE_SUMMARY = "Create offer";
+    private static final String CREATE_DESC = "creates new offer, requires jwt token";
     private static final String SEARCH_SUMMARY = "Search offers";
     private static final String SEARCH_DESC = "searches for offers, returns paginated list of offers";
     private static final String DELETE_OFFER_SUMMARY = "Delete offer";
     private static final String DELETE_OFFER_DESC = "searches for offers, returns paginated list of offers";
     private static final String PUBLISH_OFFER_SUMMARY = "Publish offer";
     private static final String PUBLISH_OFFER_DESC = "publishes offer, requires offer owner's jwt token";
+    private static final String ADD_IMAGE = "Add offer image";
+    private static final String ADD_IMAGE_DESC = "adds image to specific offer";
 
     private final OfferService offerService;
+    private final ImageService imageService;
     private final RequestContext requestContext;
 
-    public OfferInfoEndpoint(OfferService offerService, RequestContext requestContext) {
+    public OfferInfoEndpoint(OfferService offerService, ImageService imageService, RequestContext requestContext) {
         this.offerService = offerService;
+        this.imageService = imageService;
         this.requestContext = requestContext;
     }
 
-    @Operation(summary = ADD_SUMMARY, description = ADD_DESC)
+    @Operation(summary = CREATE_SUMMARY, description = CREATE_DESC)
     @PostMapping
-    public ResponseEntity<OfferDto> addOffer(@Valid @RequestBody AddOfferRequest request) {
+    public ResponseEntity<IdWrapperDto> createOffer() {
+        var offer = offerService.createOffer();
+        return ResponseEntity.ok(IdWrapperDto.from(offer));
+    }
+
+    @Operation(summary = UPDATE_SUMMARY, description = UPDATE_DESC)
+    @PutMapping("/{offerId}")
+    public ResponseEntity<OfferDto> addOffer(@PathVariable String offerId,
+                                             @Valid @RequestBody UpdateOfferRequest request) {
         // TODO: 23/10/2024 map request to domain object e.g. AddOfferCommand
-        var offer = offerService.add(request);
+        var offer = offerService.updateOffer(offerId, request);
         return ResponseEntity.ok(OfferDto.from(offer));
     }
 
@@ -115,5 +136,13 @@ public class OfferInfoEndpoint {
     public ResponseEntity<OfferDetailsDto> publishOffer(@PathVariable String offerId) {
         var response = OfferDetailsDto.from(offerService.publish(offerId));
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(value = "/{offerId}/addImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = ADD_IMAGE, description = ADD_IMAGE_DESC)
+    public ResponseEntity<IdWrapperDto> addImage(@PathVariable String offerId,
+                                                 @RequestPart("image") MultipartFile image) throws IOException {
+        var id = imageService.addImage(offerId, image);
+        return ResponseEntity.ok(new IdWrapperDto(id));
     }
 }

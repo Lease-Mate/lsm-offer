@@ -1,7 +1,7 @@
 package com.lsm.ws.offer.context.offer;
 
 import com.lsm.ws.offer.configuration.exception.NoSuchOfferException;
-import com.lsm.ws.offer.context.offer.dto.AddOfferRequest;
+import com.lsm.ws.offer.context.offer.dto.UpdateOfferRequest;
 import com.lsm.ws.offer.domain.Pagination;
 import com.lsm.ws.offer.domain.offer.Offer;
 import com.lsm.ws.offer.domain.offer.OfferFilter;
@@ -11,6 +11,7 @@ import com.lsm.ws.offer.infrastructure.rest.context.RequestContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OfferService {
@@ -23,8 +24,16 @@ public class OfferService {
         this.requestContext = requestContext;
     }
 
-    public Offer add(AddOfferRequest request) {
-        return offerRepository.save(request.toOffer(requestContext.userId()));
+    public Offer createOffer() {
+        var offer = new Offer(UUID.randomUUID().toString(), requestContext.userId());
+        return offerRepository.save(offer);
+    }
+
+    public Offer updateOffer(String offerId, UpdateOfferRequest request) {
+        var offer = offerRepository.findById(offerId)
+                                   .filter(o -> requestContext.userId().equals(o.getAppUserId()))
+                                   .orElseThrow(NoSuchOfferException::new);
+        return offerRepository.save(request.toOffer(offer));
     }
 
     public List<Offer> search(OfferFilter filter, Pagination pagination) {

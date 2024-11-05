@@ -12,10 +12,9 @@ import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Validated
-public class AddOfferRequest {
+public class UpdateOfferRequest {
 
     @NotEmpty
     public String title;
@@ -47,10 +46,10 @@ public class AddOfferRequest {
     @Valid
     public GeoLocationDto geoLocation;
 
-    public Offer toOffer(String appUserId) {
+    public Offer toOffer(Offer offer) {
         return new Offer(
-                UUID.randomUUID().toString(),
-                appUserId,
+                offer.getId(),
+                offer.getAppUserId(),
                 title,
                 description,
                 OfferStatus.UNPAID,

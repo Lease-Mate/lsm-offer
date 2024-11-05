@@ -105,13 +105,13 @@ public class OfferEntity {
         setRooms(offer.getRooms());
         setFloor(offer.getFloor());
         setSurfaceArea(offer.getSurfaceArea());
-        setLongitude(offer.getAddress().getLongitude());
-        setLatitude(offer.getAddress().getLatitude());
-        setCity(offer.getAddress().getCity());
-        setStreet(offer.getAddress().getStreet());
-        setZipCode(offer.getAddress().getZipCode());
-        setBuildingNumber(offer.getAddress().getBuildingNumber());
-        setApartmentNumber(offer.getAddress().getApartmentNumber());
+        setLongitude(offer.getAddress() == null ? null : offer.getAddress().getLongitude());
+        setLatitude(offer.getAddress() == null ? null : offer.getAddress().getLatitude());
+        setCity(offer.getAddress() == null ? null : offer.getAddress().getCity());
+        setStreet(offer.getAddress() == null ? null : offer.getAddress().getStreet());
+        setZipCode(offer.getAddress() == null ? null : offer.getAddress().getZipCode());
+        setBuildingNumber(offer.getAddress() == null ? null : offer.getAddress().getBuildingNumber());
+        setApartmentNumber(offer.getAddress() == null ? null : offer.getAddress().getApartmentNumber());
     }
 
     public void setId(String id) {

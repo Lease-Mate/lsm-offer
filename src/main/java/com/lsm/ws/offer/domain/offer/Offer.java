@@ -33,6 +33,12 @@ public class Offer {
         this.address = address;
     }
 
+    public Offer(String string, String appUserId) {
+        this.id = string;
+        this.appUserId = appUserId;
+        this.status = OfferStatus.UNPAID;
+    }
+
     public String getId() {
         return id;
     }

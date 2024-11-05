@@ -50,7 +50,8 @@ public class SecurityConfiguration implements WebSecurityCustomizer {
                    "/v3/api-docs/**",
                    "/manage/**",
                    "/v1/api/offer/available/search",
-                   "/v1/api/offer/dictionary/**");
+                   "/v1/api/offer/dictionary/**",
+                   "/v1/api/image/**");
     }
 
 }

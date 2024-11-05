@@ -4,6 +4,7 @@ import org.slf4j.helpers.MessageFormatter;
 
 public class ValidationException extends RuntimeException {
 
+
     private final String code;
 
     public ValidationException(ErrorCode errorCode) {
