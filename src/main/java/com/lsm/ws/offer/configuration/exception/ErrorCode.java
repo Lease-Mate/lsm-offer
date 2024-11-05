@@ -2,9 +2,9 @@ package com.lsm.ws.offer.configuration.exception;
 
 public enum ErrorCode {
 
-    OFFER_DOES_NOT_EXIST("001", "Offer does not exist"),
-    COUNTRY_DOES_NOT_EXIST("002", "Country with code: {} does not exist"),
-    REGION_DOES_NOT_EXIST("003", "Region with id: {} does not exist");
+    OFFER_DOES_NOT_EXIST("001", "Ogłoszenie nie istnieje"),
+    COUNTRY_DOES_NOT_EXIST("002", "Kraj nie istnieje"),
+    REGION_DOES_NOT_EXIST("003", "Region nie istnieje");
 
     private static final String MICROSERVICE_PREFIX = "lsm-offer-";
     private final String code;

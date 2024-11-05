@@ -9,7 +9,7 @@ spring:
   application:
     name: lsm-offer
   web:
-    locale: en_EN
+    locale: pl_PL
     locale-resolver: fixed
     resources:
       add-mappings: false

@@ -5,7 +5,7 @@ import com.lsm.ws.offer.configuration.exception.ValidationException;
 
 public class NoSuchCountryException extends ValidationException {
 
-    public NoSuchCountryException(String countryCode) {
-        super(ErrorCode.COUNTRY_DOES_NOT_EXIST, countryCode);
+    public NoSuchCountryException() {
+        super(ErrorCode.COUNTRY_DOES_NOT_EXIST);
     }
 }

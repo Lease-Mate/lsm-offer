@@ -49,7 +49,7 @@ public class DictionaryEndpoint {
                                 @RequestHeader @NotEmpty Language lang) {
 
         dictionaryRepository.getCountry(countryCode)
-                            .orElseThrow(() -> new NoSuchCountryException(countryCode));
+                            .orElseThrow(NoSuchCountryException::new);
 
         return dictionaryRepository.getRegions(countryCode, lang);
     }
@@ -60,7 +60,7 @@ public class DictionaryEndpoint {
                              @RequestHeader @NotNull Language lang) {
 
         dictionaryRepository.getRegion(regionId)
-                            .orElseThrow(() -> new NoSuchRegionException(regionId));
+                            .orElseThrow(NoSuchRegionException::new);
 
         return dictionaryRepository.getCities(regionId, lang);
     }
