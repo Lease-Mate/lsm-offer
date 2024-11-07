@@ -1,7 +1,6 @@
 package com.lsm.ws.offer.context.offer;
 
 import com.lsm.ws.offer.context.dto.IdWrapperDto;
-import com.lsm.ws.offer.context.image.ImageService;
 import com.lsm.ws.offer.context.offer.dto.OfferDetailsDto;
 import com.lsm.ws.offer.context.offer.dto.OfferDto;
 import com.lsm.ws.offer.context.offer.dto.UpdateOfferRequest;
@@ -13,7 +12,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +21,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -47,16 +42,12 @@ public class OfferInfoEndpoint {
     private static final String DELETE_OFFER_DESC = "searches for offers, returns paginated list of offers";
     private static final String PUBLISH_OFFER_SUMMARY = "Publish offer";
     private static final String PUBLISH_OFFER_DESC = "publishes offer, requires offer owner's jwt token";
-    private static final String ADD_IMAGE = "Add offer image";
-    private static final String ADD_IMAGE_DESC = "adds image to specific offer";
 
     private final OfferService offerService;
-    private final ImageService imageService;
     private final RequestContext requestContext;
 
-    public OfferInfoEndpoint(OfferService offerService, ImageService imageService, RequestContext requestContext) {
+    public OfferInfoEndpoint(OfferService offerService, RequestContext requestContext) {
         this.offerService = offerService;
-        this.imageService = imageService;
         this.requestContext = requestContext;
     }
 
@@ -136,13 +127,5 @@ public class OfferInfoEndpoint {
     public ResponseEntity<OfferDetailsDto> publishOffer(@PathVariable String offerId) {
         var response = OfferDetailsDto.from(offerService.publish(offerId));
         return ResponseEntity.ok(response);
-    }
-
-    @PostMapping(value = "/{offerId}/addImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = ADD_IMAGE, description = ADD_IMAGE_DESC)
-    public ResponseEntity<IdWrapperDto> addImage(@PathVariable String offerId,
-                                                 @RequestPart("image") MultipartFile image) throws IOException {
-        var id = imageService.addImage(offerId, image);
-        return ResponseEntity.ok(new IdWrapperDto(id));
     }
 }

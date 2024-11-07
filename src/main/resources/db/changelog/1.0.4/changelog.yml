@@ -3,41 +3,6 @@ databaseChangeLog:
       id: 1.0.4
       author: fpamula
       changes:
-        - createTable:
-            tableName: OFFER_IMAGE
-            columns:
-              - column:
-                  name: id
-                  type: char(36)
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: offer_id
-                  type: char(36)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: image
-                  type: blob
-                  constraints:
-                    nullable: false
-              - column:
-                  name: extension
-                  type: varchar(10)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: order_no
-                  type: int
-                  constraints:
-                    nullable: false
-        - addForeignKeyConstraint:
-            constraintName: "fk_image_offer"
-            baseTableName: offer_image
-            baseColumnNames: offer_id
-            referencedTableName: offer
-            referencedColumnNames: id
         - dropNotNullConstraint:
             tableName: offer
             columnName: title
