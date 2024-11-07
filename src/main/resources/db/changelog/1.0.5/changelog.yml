@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.0.5
+      author: fpamula
+      changes:
+        - createTable:
+            tableName: visit_reservation
+            columns:
+              - column:
+                  name: id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: offer_id
+                  type: char(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: app_user_id
+                  type: char(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: time
+                  type: time
+                  constraints:
+                    nullable: false
+              - column:
+                  name: estimated_end_time
+                  type: time
+        - addForeignKeyConstraint:
+            constraintName: "fk_visit_reservation_offer"
+            baseTableName: visit_reservation
+            baseColumnNames: offer_id
+            referencedTableName: offer
+            referencedColumnNames: id
