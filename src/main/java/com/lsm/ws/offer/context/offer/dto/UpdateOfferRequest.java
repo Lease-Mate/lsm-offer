@@ -46,6 +46,9 @@ public class UpdateOfferRequest {
     @Valid
     public GeoLocationDto geoLocation;
 
+    @NotEmpty
+    public String thumbnailId;
+
     public Offer toOffer(Offer offer) {
         return new Offer(
                 offer.getId(),
@@ -66,7 +69,8 @@ public class UpdateOfferRequest {
                         address.zipCode,
                         address.buildingNumber,
                         address.apartmentNumber
-                )
+                ),
+                thumbnailId
         );
     }
 }

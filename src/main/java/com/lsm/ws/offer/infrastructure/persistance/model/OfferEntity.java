@@ -70,6 +70,9 @@ public class OfferEntity {
     @Column(name = "apartment_number")
     private String apartmentNumber;
 
+    @Column(name = "thumbnailId")
+    private String thumbnailId;
+
     public Offer toOffer() {
         return new Offer(
                 id,
@@ -90,7 +93,8 @@ public class OfferEntity {
                         zipCode,
                         buildingNumber,
                         apartmentNumber
-                )
+                ),
+                thumbnailId
         );
     }
 
@@ -112,6 +116,7 @@ public class OfferEntity {
         setZipCode(offer.getAddress() == null ? null : offer.getAddress().getZipCode());
         setBuildingNumber(offer.getAddress() == null ? null : offer.getAddress().getBuildingNumber());
         setApartmentNumber(offer.getAddress() == null ? null : offer.getAddress().getApartmentNumber());
+        setThumbnailId(offer.getThumbnailId());
     }
 
     public void setId(String id) {
@@ -180,5 +185,9 @@ public class OfferEntity {
 
     public void setApartmentNumber(String apartmentNumber) {
         this.apartmentNumber = apartmentNumber;
+    }
+
+    public void setThumbnailId(String thumbnailId) {
+        this.thumbnailId = thumbnailId;
     }
 }

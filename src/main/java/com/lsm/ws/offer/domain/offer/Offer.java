@@ -16,10 +16,11 @@ public class Offer {
     private Integer floor;
     private Double surfaceArea;
     private Address address;
+    private String thumbnailId;
 
     public Offer(String id, String appUserId, String title, String description, OfferStatus status,
                  LocalDate availableFrom, BigDecimal rent, Integer rooms, Integer floor, Double surfaceArea,
-                 Address address) {
+                 Address address, String thumbnailId) {
         this.id = id;
         this.appUserId = appUserId;
         this.title = title;
@@ -31,6 +32,7 @@ public class Offer {
         this.floor = floor;
         this.surfaceArea = surfaceArea;
         this.address = address;
+        this.thumbnailId = thumbnailId;
     }
 
     public Offer(String string, String appUserId) {
@@ -117,5 +119,13 @@ public class Offer {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getThumbnailId() {
+        return thumbnailId;
+    }
+
+    public void setThumbnailId(String thumbnailId) {
+        this.thumbnailId = thumbnailId;
     }
 }
