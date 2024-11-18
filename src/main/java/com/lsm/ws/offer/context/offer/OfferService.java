@@ -54,4 +54,10 @@ public class OfferService {
         offer.setStatus(OfferStatus.PUBLISHED);
         return offerRepository.save(offer);
     }
+
+    public Offer findActive(String offerId) {
+        return offerRepository.findById(offerId)
+                              .filter(Offer::isActive)
+                              .orElseThrow(NoSuchOfferException::new);
+    }
 }

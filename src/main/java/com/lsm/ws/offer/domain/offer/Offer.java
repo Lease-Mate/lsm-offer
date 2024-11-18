@@ -128,4 +128,8 @@ public class Offer {
     public void setThumbnailId(String thumbnailId) {
         this.thumbnailId = thumbnailId;
     }
+
+    public boolean isActive() {
+        return status == OfferStatus.PUBLISHED;
+    }
 }

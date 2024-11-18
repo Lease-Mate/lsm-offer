@@ -4,7 +4,9 @@ import com.lsm.ws.offer.context.dto.IdWrapperDto;
 import com.lsm.ws.offer.context.offer.dto.OfferDetailsDto;
 import com.lsm.ws.offer.context.offer.dto.OfferDto;
 import com.lsm.ws.offer.context.offer.dto.UpdateOfferRequest;
+import com.lsm.ws.offer.domain.offer.Offer;
 import com.lsm.ws.offer.domain.offer.OfferFilter;
+import com.lsm.ws.offer.domain.offer.OfferRepository;
 import com.lsm.ws.offer.domain.offer.OfferStatus;
 import com.lsm.ws.offer.infrastructure.rest.PaginationSpecification;
 import com.lsm.ws.offer.infrastructure.rest.context.RequestContext;
@@ -38,16 +40,21 @@ public class OfferInfoEndpoint {
     private static final String CREATE_DESC = "creates new offer, requires jwt token";
     private static final String SEARCH_SUMMARY = "Search offers";
     private static final String SEARCH_DESC = "searches for offers, returns paginated list of offers";
+    private static final String INTERNAL_OFFER_SUMMARY = "Get active offer offers";
+    private static final String INTERNAL_OFFER_DESC = "returns active offer if exists";
     private static final String DELETE_OFFER_SUMMARY = "Delete offer";
     private static final String DELETE_OFFER_DESC = "searches for offers, returns paginated list of offers";
     private static final String PUBLISH_OFFER_SUMMARY = "Publish offer";
     private static final String PUBLISH_OFFER_DESC = "publishes offer, requires offer owner's jwt token";
 
     private final OfferService offerService;
+    private final OfferRepository offerRepository;
     private final RequestContext requestContext;
 
-    public OfferInfoEndpoint(OfferService offerService, RequestContext requestContext) {
+    public OfferInfoEndpoint(OfferService offerService, OfferRepository offerRepository,
+                             RequestContext requestContext) {
         this.offerService = offerService;
+        this.offerRepository = offerRepository;
         this.requestContext = requestContext;
     }
 
@@ -127,5 +134,13 @@ public class OfferInfoEndpoint {
     public ResponseEntity<OfferDetailsDto> publishOffer(@PathVariable String offerId) {
         var response = OfferDetailsDto.from(offerService.publish(offerId));
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = INTERNAL_OFFER_SUMMARY, description = INTERNAL_OFFER_DESC)
+    @GetMapping("/internal/{offerId}")
+    public ResponseEntity<Offer> internalOffer(@PathVariable String offerId) {
+        var offer = offerRepository.findById(offerId);
+        return offer.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

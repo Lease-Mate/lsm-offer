@@ -70,7 +70,7 @@ public class OfferEntity {
     @Column(name = "apartment_number")
     private String apartmentNumber;
 
-    @Column(name = "thumbnailId")
+    @Column(name = "thumbnail_id")
     private String thumbnailId;
 
     public Offer toOffer() {
