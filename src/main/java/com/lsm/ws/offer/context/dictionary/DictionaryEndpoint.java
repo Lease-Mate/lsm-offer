@@ -46,7 +46,7 @@ public class DictionaryEndpoint {
     @Operation(summary = REGIONS_SUMMARY, description = REGIONS_DESC)
     @GetMapping("/countries/{countryCode}/regions")
     public List<Region> regions(@PathVariable @NotEmpty String countryCode,
-                                @RequestHeader @NotEmpty Language lang) {
+                                @RequestHeader @NotNull Language lang) {
 
         dictionaryRepository.getCountry(countryCode)
                             .orElseThrow(NoSuchCountryException::new);
