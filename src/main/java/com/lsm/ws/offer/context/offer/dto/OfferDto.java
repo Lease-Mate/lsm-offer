@@ -20,6 +20,7 @@ public class OfferDto {
     public Integer floor;
     public Double surfaceArea;
     public Address address;
+    public String thumbnailId;
 
     public static OfferDto from(Offer offer) {
         OfferDto dto = new OfferDto();
@@ -33,6 +34,7 @@ public class OfferDto {
         dto.floor = offer.getFloor();
         dto.surfaceArea = offer.getSurfaceArea();
         dto.address = offer.getAddress();
+        dto.thumbnailId = offer.getThumbnailId();
         return dto;
     }
 }
