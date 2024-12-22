@@ -47,9 +47,6 @@ public class OfferFacadeRepository implements OfferRepository {
         if (offerFilter.city() != null) {
             specification = specification.and(hasCity(offerFilter.city()));
         }
-        if (offerFilter.availableFrom() != null) {
-            specification = specification.and(isAvailableFrom(offerFilter.availableFrom()));
-        }
         if (offerFilter.availableTo() != null) {
             specification = specification.and(isAvailableTo(offerFilter.availableTo()));
         }
@@ -109,10 +106,6 @@ public class OfferFacadeRepository implements OfferRepository {
 
     private Specification<OfferEntity> isAvailableTo(LocalDate availableFrom) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("availableFrom"), availableFrom);
-    }
-
-    private Specification<OfferEntity> isAvailableFrom(LocalDate availableTo) {
-        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("availableFrom"), availableTo);
     }
 
     private Specification<OfferEntity> hasCity(String city) {

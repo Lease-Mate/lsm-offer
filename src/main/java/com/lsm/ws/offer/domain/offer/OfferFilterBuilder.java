@@ -8,7 +8,6 @@ public class OfferFilterBuilder {
     private OfferStatus status;
     private String country;
     private String city;
-    private LocalDate availableFrom;
     private LocalDate availableTo;
     private BigDecimal rentFrom;
     private BigDecimal rentTo;
@@ -28,11 +27,6 @@ public class OfferFilterBuilder {
 
     public OfferFilterBuilder withCity(String city) {
         this.city = city;
-        return this;
-    }
-
-    public OfferFilterBuilder withAvailableFrom(LocalDate availableFrom) {
-        this.availableFrom = availableFrom;
         return this;
     }
 
@@ -71,7 +65,6 @@ public class OfferFilterBuilder {
                 status,
                 country,
                 city,
-                availableFrom,
                 availableTo,
                 rentFrom,
                 rentTo,
