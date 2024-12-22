@@ -78,7 +78,6 @@ public class OfferInfoEndpoint {
     @GetMapping("/available/search")
     public ResponseEntity<List<OfferDto>> searchOffers(@RequestParam(required = false) String country,
                                                        @RequestParam(required = false) String city,
-                                                       @RequestParam(required = false) LocalDate availableFrom,
                                                        @RequestParam(required = false) LocalDate availableTo,
                                                        @RequestParam(required = false) BigDecimal rentFrom,
                                                        @RequestParam(required = false) BigDecimal rentTo,
@@ -90,7 +89,6 @@ public class OfferInfoEndpoint {
                                 .withStatus(OfferStatus.PUBLISHED)
                                 .withCountry(country)
                                 .withCity(city)
-                                .withAvailableFrom(availableFrom)
                                 .withAvailableTo(availableTo)
                                 .withRentFrom(rentFrom)
                                 .withRentTo(rentTo)

@@ -6,7 +6,6 @@ import java.time.LocalDate;
 public record OfferFilter(OfferStatus status,
                           String country,
                           String city,
-                          LocalDate availableFrom,
                           LocalDate availableTo,
                           BigDecimal rentFrom,
                           BigDecimal rentTo,
